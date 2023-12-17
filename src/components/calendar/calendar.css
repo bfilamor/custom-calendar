@@ -9,6 +9,12 @@
     grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
+.panel--header {
+    width:300px;
+    max-width:100%;
+    margin:0 auto;
+}
+
 .panel--grid {
     text-align: center;
     gap: 0.25rem;

@@ -34,6 +34,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 | Name  | Type | Default | Description
 | --- | --- |  --- | --- 
 | fullWidth | Boolean  |  | Gives the Calendar Component a full width layout
+| dateState | Object  |  | The state that represents the selected date when DatePicker is used
 | handleChange | function(newDate)  |  | Called when a date is selected
 
 ### `DatePicker Props`

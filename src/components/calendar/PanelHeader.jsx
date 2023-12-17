@@ -6,12 +6,14 @@ import { PanelTrigger } from './PanelTrigger';
 
 export const PanelHeader = ({ handlePrev, handleNext, handleClick, children }) => {
   return (
-    <div className='d-flex justify-content-center gap-2 align-items-center mb-3'>
-      <PanelButton handleClick={handlePrev}><FontAwesomeIcon icon={faChevronLeft} /></PanelButton>
-      <PanelTrigger handleClick={handleClick ? handleClick : null}>
-        {children}
-      </PanelTrigger>
-      <PanelButton handleClick={handleNext}><FontAwesomeIcon icon={faChevronRight} /></PanelButton>
+    <div className='panel--header'>
+      <div className='d-flex justify-content-between gap-2 align-items-center mb-3'>
+        <PanelButton handleClick={handlePrev}><FontAwesomeIcon icon={faChevronLeft} /></PanelButton>
+        <PanelTrigger handleClick={handleClick ? handleClick : null}>
+          {children}
+        </PanelTrigger>
+        <PanelButton handleClick={handleNext}><FontAwesomeIcon icon={faChevronRight} /></PanelButton>
+      </div>
     </div>
   )
 }

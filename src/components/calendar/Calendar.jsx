@@ -5,9 +5,9 @@ import { YearsPanel } from './YearsPanel';
 import { MonthsPanel } from './MonthsPanel';
 import { PanelHeader } from './PanelHeader';
 
-export const Calendar = ({ fullWidth, handleChange }) => {
+export const Calendar = ({ fullWidth, handleChange, setCalendarActive, dateState }) => {
     const today = new Date();
-    const [currentDate, setCurrentDate] = useState(today);
+    const [currentDate, setCurrentDate] = useState(dateState ? dateState : today);
     const [selectedDate, setSelectedDate] = useState(null);
     const [isMonthsPanelActive, setIsMonthsPanelActive] = useState(false);
     const [isYearsPanelActive, setIsYearsPanelActive] = useState(false);
@@ -30,19 +30,14 @@ export const Calendar = ({ fullWidth, handleChange }) => {
         return days;
     }
 
-    //generate an array of day names based on the total dates
-    const weeks = (date => {
-        let weeks = [];
-        for (let day = 1; day <= 7; day++) {
-            weeks.push(date[day])
-        }
-        return weeks;
-    })(totalDates());
+
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     //adds current day class to the current date
     const isToday = (day) => dateFns.isSameDay(day, today);
     // adds selected day class to the selected date
-    const isSelectedDate = (day) => dateFns.isSameDay(day, selectedDate);
+    //if handleChange prop or dateState propr are given, use the date state from the datepicker
+    const isSelectedDate = (day) => !handleChange || !dateState ? dateFns.isSameDay(day, selectedDate) : dateFns.isSameDay(day, dateState);
 
     //hide month and years panels if month is selected
     const handleHidePanels = () => {
@@ -53,11 +48,13 @@ export const Calendar = ({ fullWidth, handleChange }) => {
     const handleDateChange = (date) => {
         //if handleChange is passed as props/ datepicker component is used
         if (handleChange) {
-            handleChange(date);
-            setSelectedDate(date);
-        } else {
-            setSelectedDate(date);
+            handleChange(date); 
+        } 
+        //only executed when used with the Datepicker
+        if (setCalendarActive) {
+            setCalendarActive(false);
         }
+        setSelectedDate(date);
     }
 
 
@@ -82,9 +79,8 @@ export const Calendar = ({ fullWidth, handleChange }) => {
                 {dateFns.format(currentDate, 'MMM')} {dateFns.format(currentDate, 'yyy')}
             </PanelHeader>
 
-
-            <div className='calendar--grid fw-bold'>
-                {weeks.map((week, index) => <div key={index}>{dateFns.format(week, 'eee')}</div>)}
+            <div className='calendar--grid fw-bold mb-2'>
+                {days.map((day, index) => <div key={index}>{day}</div>)}
             </div>
             <div className='calendar--grid'>
                 {totalDates().map((date, index) =>
@@ -92,7 +88,7 @@ export const Calendar = ({ fullWidth, handleChange }) => {
                         style={{
                             color: !dateFns.isSameMonth(date, currentDate) ? '#ddd' : '#000',
                         }}
-                        onClick={() => { handleDateChange(date) }}
+                        onClick={() => handleDateChange(date)}
                     >
                         <span className={`d-inline-block calendar--grid__cell--inner  ${isSelectedDate(date) ? 'calendar--selected' : ''}`}>
                             {dateFns.format(date, 'd')}

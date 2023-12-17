@@ -48,7 +48,7 @@ export const Datepicker = ({ handleChange, value }) => {
                     <div className='position-absolute z-2'
                         style={{ top: "30px" }}
                     >
-                        <Calendar handleChange={handleChange} />
+                        <Calendar handleChange={handleChange} setCalendarActive={setCalendarActive} dateState={value}/>
                     </div>
                 }
             </InputGroup>
